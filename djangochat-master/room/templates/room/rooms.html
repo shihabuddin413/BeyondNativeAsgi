@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Bots | {% endblock %}
+
+{% block content %}
+<div class="p-10 lg:p-5 text-center ">
+    <h1 class="text-xl lg:text-2xl text-white">Bots</h1>
+    <p class="text-yellow-300">please scroll to see all the bot ...</p>
+</div>
+
+<div class="w-full flex-col lg:flex items-center px-2" style="height:70vh; overflow-y:scroll">
+    
+    {% for room in rooms %}
+        {% if room.bot_id == '1' or room.bot_id == '2'  %}
+            <div class="w-full lg:w-1/4 px-3 py-3 mx-auto">
+                <div class="p-4 bg-white shadow rounded-xl text-center">
+                    <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+                    <a href="{% url 'bot' room.slug %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Chat</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="w-full lg:w-1/4 px-3 py-3 mx-auto">
+                <div class="p-4 bg-white shadow rounded-xl text-center">
+                    <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+                    <div class="flex">
+                        <a href="{% url 'edit' room.slug %}" class="px-5 py-3 mx-2 block rounded-xl text-white bg-teal-600 hover:bg-teal-700" style="width:100%">edit</a>
+                        <a href="{% url 'bot' room.slug %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700" style="width:100%">Chat</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    
+</div>
+{% endblock %}

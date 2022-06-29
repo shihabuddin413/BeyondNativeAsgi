@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ room.name }} | {% endblock %}
+
+{% block content %}
+<div class="p-10 lg:p-5 text-center" 
+    style="display:flex;
+           align-items:center;
+           justify-content:center;">
+    <h1 class="text-xl lg:text-3xl text-white">{{ room.name }}</h1>
+    
+</div>
+
+<div id="TheSuperChatbox" class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl" 
+    style="height:50vh; overflow-y: scroll;">
+    <div class="chat-messages space-y-3" id="chat-messages">
+        <div class="w-full text-center">
+            <p class="p-4 text-md bg-blue-100 rounded-3xl">
+                <span class="text-2xl"> {{ room.name }} </span>
+                <br>
+                <span> {{ welcome_msg }} </span>
+            </p>
+        </div>
+        {% for chat in chats %}
+            {% if chat.message_from == "bot" %}
+                <div class=" " style="width:max-content">
+                    <p id="{{chat.message}}" class="font-semibold text-xs px-2">{{ room.name }}</p>
+                    <p class="p-2 text-md bg-gray-200 rounded-3xl">{{ chat.message }}</p>
+                </div>
+                {% if chat.options %}
+                    <div class="bg-yellow-100 flex flex-wrap  border-2">
+                        {% for option in chat.options %}
+                            <p class="p-1 m-1 text-md bg-teal-500 text-white">
+                               <span class="bg-white rounded p-1 mx-1 text-teal-500">  {{ option.num }} </span> {{ option.data }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if chat.message_from != '' %}
+                    <div class="" style="width:max-content; margin-left:auto">
+                        <p class="font-semibold text-teal-900 text-xs px-2" style="width:max-content; margin-left:auto"> {{ chat.message_from }}</p>
+                        <p class="p-2 bg-teal-200 rounded-3xl text-md">{{ chat.message }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="lg:w-2/4  my-6 mx-4 lg:mx-auto p-2 bg-white rounded-xl">
+    
+    <form method="post" action="{% url 'bot' room.slug %}" class="flex">
+        
+        <input type="text" name="content" class="flex-1 mr-auto" placeholder="Your message..." id="chat-message-input" style="outline:none;">
+        <button 
+            class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+            id="chat-message-submit"
+        >Submit</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

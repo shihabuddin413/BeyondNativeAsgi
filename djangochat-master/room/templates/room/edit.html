@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ room.name }} | {% endblock %}
+
+{% block content %}
+<div class="p-10 lg:p-0 text-center" >
+    
+    <h1 class="text-xl lg:text-3xl text-white">
+        <span class="text-teal-200 text-md lg:text-xl">[SETTINGS]</span>
+        {{ room.name }}
+    </h1>
+
+    {% if msg %}
+    <span class="text-yellow-200">{{ msg }}</span>
+    {% endif %}
+
+    <div class="lg:w-2/4  my-6 mx-4 lg:mx-auto p-2 bg-white rounded-xl">
+    
+        <form method="post" action="{% url 'edit' room.slug  %}">
+            <p class="text-gray-500">Welcome Message</p>
+            <hr/>
+            <input type="text" name="content" placeholder="Your message..." id="chat-message-input" style="outline:none; width:100%"
+            value='{{ room.wellcome_msg }}'   >
+            <br/>
+            <button 
+                class="mt-6 px-4 py-1 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+                id="chat-message-submit"
+            >Save</button>
+        </form>
+    </div>
+</div>
+
+<div class="lg:w-2/4 mx-4 lg:mx-auto p-2 bg-white rounded-xl" 
+    >
+    
+    <div class="lg:w-full  my-0 mx-4 lg:mx-auto p-2 bg-white rounded-xl">
+        <form method="post" action="{% url 'edit' room.slug %}" >
+            <button class="px-5 py-1 rounded-xl text-white bg-teal-600 hover:bg-teal-700 m-2">Set</button><span>You can set up to {{numqs}} questions </span>
+            <hr/>
+            <div style="width:100%; height:50vh; overflow-y: scroll; overflow-x:none">
+                <p>{{ qns }}</p>
+                {% for q in qs_data %}
+                    <div class="flex items-center">
+                        <span>{{q.serial_title}}</span>
+                        <input type="text" name="qs{{q.serial}}" class="bg-gray-200 p-2 m-2" placeholder="Question" value='{{ q.qs_set }}' style="outline:none;">
+                        <input type="text" name="ans{{q.serial}}" class="bg-gray-200 p-2 m-2" placeholder="Answer"  value='{{ q.ans_set }}' style="outline:none;">
+                    </div>
+                {% endfor %}
+            </div>
+            
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
